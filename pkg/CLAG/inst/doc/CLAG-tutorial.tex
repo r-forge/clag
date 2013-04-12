@@ -1,0 +1,83 @@
+%\VignetteIndexEntry{SVGMapping Tutorial}
+%\VignettePackage{SVGMapping}
+%\VignetteDepends{XML}
+
+\documentclass[a4paper]{article}
+
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{4mm}
+
+\usepackage{fullpage}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,filecolor=black,urlcolor=black]{hyperref}
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage{varioref}
+
+\newcommand{\Rfunc}[1]{\mbox{{\small\texttt{#1}}}}
+
+\title{CLAG: an unsupervised\\
+non hierarchical clustering algorithm\\
+handling biological data}
+
+\author{Linda Dib$^{1,2}$, Rapha\"el Champeimont$^{1,2}$, Alessandra Carbone$^{1,2,*}$ \\
+\\
+{\small $^{1}$Universit\'e Pierre et Marie Curie, UMR7238, 15, rue de l'Ecole de M\'edecine, 75006 Paris, France}\\
+{\small $^{2}$CNRS, UMR7238, Laboratoire de G\'enomique des Microorganismes, F-75006
+Paris, France}
+}
+
+\usepackage{Sweave}
+\begin{document}
+\input{CLAG-tutorial-concordance}
+\setkeys{Gin}{width=0.5\textwidth}
+
+\maketitle
+
+\begin{abstract}
+This package allows to use the CLAG clustering algorithm decribed in \cite{CLAG}.
+\end{abstract}
+
+\setlength{\parskip}{0mm}
+\tableofcontents
+
+\setlength{\parskip}{4mm}
+
+\newpage
+
+\section{Example with a artificial data set}
+
+First, let's load the package.
+
+\begin{Schunk}
+\begin{Sinput}
+> library(CLAG)
+\end{Sinput}
+\end{Schunk}
+
+Now, we load an example data set (provided with this package),
+and run the CLAG algorithm on it. We use $\Delta=0.05$
+and a threshold of $0.5$ for environment score.
+
+\begin{Schunk}
+\begin{Sinput}
+> DATA <- CLAG.loadExampleData("DIM128")
+> RES <- CLAG.clust(DATA, delta=0.05, threshold=0.5)
+\end{Sinput}
+\end{Schunk}
+
+Now, we do a Principal Component Analysis to better 
+
+\begin{Schunk}
+\begin{Sinput}
+> PCA <- prcomp(DATA)
+> plot(PCA$x[,1], PCA$x[,2], col=rainbow(RES$nclusters)[RES$cluster])
+\end{Sinput}
+\end{Schunk}
+\includegraphics{CLAG-tutorial-003}
+
+
+
+\bibliographystyle{plain}
+\bibliography{CLAG}
+
+\end{document}

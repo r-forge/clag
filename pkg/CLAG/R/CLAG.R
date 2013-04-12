@@ -106,18 +106,7 @@ CLAG.removeDir <- function(outputDir) {
   unlink(outputDir, recursive=TRUE)
 }
 
-# DATA is either a matrix or a list composed of
-# - a matrix M
-# - a vector colIds with column ids (same length as ncol(M))
-# - a vector rowIds with row ids (same length as nrow(M))
-# analysisType: type of matrix (-p parameter of CLAG)
-#    1 for generic case where lines are elements and columns characters
-#      -> only environnment score is computed
-#    3 if characters are a subset of elements
-#      -> both environnment score and symmetric scores are computed
-#      (you can use 1 if you don't want the symmetric score)
-# delta: delta parameter (examples: 0.05, 0.1 or 0.2)
-# threshold: score threshold in [-1,+1] (examples: 0, 0.5, 1)
+
 CLAG.clust <- function(DATA, delta=0.05, threshold=0, analysisType=1, verbose=FALSE, keepTempFiles=FALSE) {
   p <- analysisType
   k <- threshold
@@ -130,6 +119,11 @@ CLAG.clust <- function(DATA, delta=0.05, threshold=0, analysisType=1, verbose=FA
     M <- DATA$M
     rowIds <- DATA$rowIds
     colIds <- DATA$colIds
+    if (analysisType == 3) {
+      if (!all(colIds %in% rowIds)) {
+        stop("column ids need to be a subset of row ids when analysisType=3")
+      }
+    }
   }
   stopifnot(nrow(M) == length(rowIds))
   stopifnot(ncol(M) == length(colIds))
@@ -168,7 +162,6 @@ CLAG.clust <- function(DATA, delta=0.05, threshold=0, analysisType=1, verbose=FA
       }
     }
   }
-  #RES$inputNormalized <- CLAG.readInput(paste(outdir, "/input.txt", sep=""), p=p)
   RES$nclusters <- nrow(rawClusters)
   RES$delta <- d/100
   RES$threshold <- k
@@ -226,8 +219,6 @@ CLAG.plotClusters <- function(RES, HC=TRUE) {
 }
 
 
-# Possible values are:
-# BRAIN  BREAST  GLOBINE DIM128
 CLAG.loadExampleData <- function(set="BREAST") {
   if (set %in% c("BREAST","BRAIN","GLOBINE")) {
     return(CLAG.readInput(paste(CLAG.data.path, "/", set, "/input.txt", sep="")))
