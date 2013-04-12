@@ -1,6 +1,5 @@
-%\VignetteIndexEntry{SVGMapping Tutorial}
-%\VignettePackage{SVGMapping}
-%\VignetteDepends{XML}
+%\VignetteIndexEntry{CLAG Tutorial}
+%\VignettePackage{CLAG}
 
 \documentclass[a4paper]{article}
 
@@ -9,9 +8,8 @@
 
 \usepackage{fullpage}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=black,filecolor=black,urlcolor=black]{hyperref}
-\usepackage{amssymb} %maths
-\usepackage{amsmath} %maths
 \usepackage{varioref}
+\usepackage[authoryear]{natbib}
 
 \newcommand{\Rfunc}[1]{\mbox{{\small\texttt{#1}}}}
 
@@ -26,9 +24,8 @@ handling biological data}
 Paris, France}
 }
 
-\usepackage{Sweave}
 \begin{document}
-\input{CLAG-tutorial-concordance}
+\SweaveOpts{concordance=TRUE}
 \setkeys{Gin}{width=0.5\textwidth}
 
 \maketitle
@@ -44,40 +41,35 @@ This package allows to use the CLAG clustering algorithm decribed in \cite{CLAG}
 
 \newpage
 
-\section{Example with a artificial data set}
+\section{Example with an artificial data set}
 
 First, let's load the package.
 
-\begin{Schunk}
-\begin{Sinput}
-> library(CLAG)
-\end{Sinput}
-\end{Schunk}
+<<keep.source=TRUE>>=
+library(CLAG)
+@
 
 Now, we load an example data set (provided with this package),
 and run the CLAG algorithm on it. We use $\Delta=0.05$
 and a threshold of $0.5$ for environment score.
 
-\begin{Schunk}
-\begin{Sinput}
-> DATA <- CLAG.loadExampleData("DIM128")
-> RES <- CLAG.clust(DATA, delta=0.05, threshold=0.5)
-\end{Sinput}
-\end{Schunk}
+<<keep.source=TRUE>>=
+DATA <- CLAG.loadExampleData("DIM128")
+RES <- CLAG.clust(DATA, delta=0.05, threshold=0.5)
+@
 
-Now, we do a Principal Component Analysis to better 
+Now, we do a Principal Component Analysis to better visualize the data, and color the points according to the clusters found by CLAG.
 
-\begin{Schunk}
-\begin{Sinput}
-> PCA <- prcomp(DATA)
-> plot(PCA$x[,1], PCA$x[,2], col=rainbow(RES$nclusters)[RES$cluster])
-\end{Sinput}
-\end{Schunk}
-\includegraphics{CLAG-tutorial-003}
+<<keep.source=TRUE,fig=TRUE>>=
+PCA <- prcomp(DATA)
+plot(PCA$x[,1], PCA$x[,2], col=rainbow(RES$nclusters)[RES$cluster])
+@
+
+As can be seen, the clusters are perfectly detected.
 
 
 
-\bibliographystyle{plain}
+\bibliographystyle{natbib}
 \bibliography{CLAG}
 
 \end{document}
