@@ -8,8 +8,7 @@
 
 \usepackage{fullpage}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=black,filecolor=black,urlcolor=black]{hyperref}
-\usepackage{varioref}
-\usepackage[authoryear]{natbib}
+\usepackage{natbib}
 
 \newcommand{\Rfunc}[1]{\mbox{{\small\texttt{#1}}}}
 
@@ -50,11 +49,14 @@ library(CLAG)
 @
 
 Now, we load an example data set (provided with this package),
-and run the CLAG algorithm on it. We use $\Delta=0.05$
+and restrict our analysis to the first 10 columns
+(you can use all columns but calculcation will take longer).
+Then we run the CLAG algorithm on it. We use $\Delta=0.05$
 and a threshold of $0.5$ for environment score.
 
 <<keep.source=TRUE>>=
 DATA <- CLAG.loadExampleData("DIM128")
+DATA <- DATA[,1:10]
 RES <- CLAG.clust(DATA, delta=0.05, threshold=0.5)
 @
 
@@ -69,7 +71,7 @@ As can be seen, the clusters are perfectly detected.
 
 
 
-\bibliographystyle{natbib}
+\bibliographystyle{plain}
 \bibliography{CLAG}
 
 \end{document}
