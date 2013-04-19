@@ -41,8 +41,8 @@ CLAG.writeInput <- function(A, outfile, rowIds=NULL, colIds=NULL) {
   if (is.null(rowIds)) {
     rowIds <- 1:nrow(A)
   }
-  if (is.null(rowIds)) {
-    rowIds <- 1:ncol(A)
+  if (is.null(colIds)) {
+    colIds <- 1:ncol(A)
   }
   for (i in 1:N) {
     for (j in 1:M) {
@@ -68,11 +68,7 @@ CLAG.readInput <- function(infile, p=1) {
   return(DATA)
 }
 
-# Run CLAG
-# Possibles values for p:
-# 1 a general matrix
-# 2 a binary matrix
-# 3 a matrix where N included in E
+
 CLAG.exec <- function(f, p=1, k=0, d=NULL, verbose=TRUE) {
   exefile <- paste(CLAG.path, "/exe-RCommand.pl", sep="")
   if (!file.exists(exefile)) {
@@ -99,6 +95,9 @@ CLAG.exec <- function(f, p=1, k=0, d=NULL, verbose=TRUE) {
 }
 
 CLAG.readClusters <- function(fpath) {
+  if (!file.exists(fpath)) {
+    stop("No CLAG result file.")
+  }
   return(read.table(fpath, sep=":", header=FALSE, fill=TRUE, stringsAsFactors=FALSE, row.names=NULL))
 }
 
@@ -107,51 +106,101 @@ CLAG.removeDir <- function(outputDir) {
 }
 
 
-CLAG.clust <- function(DATA, delta=0.05, threshold=0, analysisType=1, verbose=FALSE, keepTempFiles=FALSE) {
-  p <- analysisType
-  k <- threshold
-  d <- 100*delta
-  if (is.matrix(DATA) || is.data.frame(DATA) || is.null(DATA$M)) {
-    M <- DATA
-    rowIds <- 1:nrow(DATA)
-    colIds <- 1:ncol(DATA)
+CLAG.clust <- function(M,
+                       delta=0.05,
+                       threshold=0,
+                       analysisType=1,
+                       normalization="affine-global",
+                       rowIds=NULL,
+                       colIds=NULL,
+                       verbose=FALSE,
+                       keepTempFiles=FALSE) {
+  
+  if (analysisType != 1 && analysisType != 2 && analysisType != 3) {
+    stop("analysisType must be 1, 2, or 3")
   } else {
-    M <- DATA$M
-    rowIds <- DATA$rowIds
-    colIds <- DATA$colIds
-    if (analysisType == 3) {
-      if (!all(colIds %in% rowIds)) {
-        stop("column ids need to be a subset of row ids when analysisType=3")
-      }
+    analysisType <- as.integer(analysisType)
+  }
+  
+  
+  if (analysisType != 2) {
+    # Variables are real
+    if (delta <= 0 || delta > 1) {
+      stop("delta must be between 0 and 1")
+    }
+    d <- 100*delta
+  }
+  
+  if (is.null(rowIds)) {
+    rowIds <- 1:nrow(M)
+  } else {
+    if (nrow(M) != length(rowIds)) {
+      stop("rowIds need to contain as many elements as rows in matrix")
+    }
+    if (anyDuplicated(rowIds)) {
+      stop("rowIds need to be unique")
     }
   }
-  stopifnot(nrow(M) == length(rowIds))
-  stopifnot(ncol(M) == length(colIds))
+  
+  if (is.null(colIds)) {
+    colIds <- 1:ncol(M)
+  } else {
+    if (ncol(M) != length(colIds)) {
+      stop("colIds need to contain as many elements as columns in matrix")
+    }
+    if (anyDuplicated(colIds)) {
+      stop("colIds need to be unique")
+    }
+  }
+  
+  if (analysisType == 3) {
+    if (!all(colIds %in% rowIds)) {
+      stop("column ids need to be a subset of row ids when analysisType=3")
+    }
+  }
+  
+  if (normalization == "affine-global") {
+    # do nothing, it is done automatically by CLAG
+  } else if (normalization == "affine-column") {
+    for (j in 1:ncol(M)) {
+      r <- range(M[,j], na.rm=TRUE)
+      M[,j] <- (M[,j] - r[1])/(r[2] - r[1])
+    }
+  } else if (normalization == "rank-column") {
+    for (j in 1:ncol(M)) {
+      M[,j] <- rank(M[,j])
+    }
+  } else {
+    stop("invalid normalization method specified")
+  }
+
   outdir <- tempfile("CLAG_")
   dir.create(outdir)
   if (verbose) cat("Writing to", outdir, "\n")
   fn <- paste(outdir, "/input.txt", sep="")
   CLAG.writeInput(M, fn, rowIds=rowIds, colIds=colIds)
-  CLAG.exec(f=outdir, p=p, k=k, d=d, verbose=verbose)
-  respath <- paste(outdir, "/aggregation-", d, ".txt", sep="")
+  CLAG.exec(f=outdir, p=analysisType, k=threshold, d=d, verbose=verbose)
+  if (analysisType != 2) {
+    respath <- paste(outdir, "/aggregation-", d, ".txt", sep="")
+  } else {
+    respath <- paste(outdir, "/aggregation.txt", sep="")
+  }
   rawClusters <- CLAG.readClusters(respath)
   if (!keepTempFiles) {
     CLAG.removeDir(outdir)
   }
   
   RES <- list()
-  RES$cluster <- rep(-1, nrow(M))
-  RES$firstScores <- c()
-  RES$lastScores <- c()
+  RES$cluster <- rep(0L, nrow(M))
   if (nrow(rawClusters) > 0) {
     for (i in 1:nrow(rawClusters)) {
       elements <- as.integer(strsplit(rawClusters[i,1], split=" ")[[1]])
       indices <- match(elements, rowIds)
-      if (any(RES$cluster[indices] != -1)) {
+      if (any(RES$cluster[indices] != 0L)) {
         stop("element in 2 clusters")
       }
       RES$cluster[indices] <- i
-      if (p == 3) {
+      if (analysisType == 3) {
         RES$firstSymScore <- c(RES$firstScores, as.numeric(rawClusters[i,3]))
         RES$lastSymScore <- c(RES$lastScores, as.numeric(rawClusters[i,4]))
         RES$firstEnvScore <- c(RES$firstScores, as.numeric(rawClusters[i,5]))
@@ -163,9 +212,9 @@ CLAG.clust <- function(DATA, delta=0.05, threshold=0, analysisType=1, verbose=FA
     }
   }
   RES$nclusters <- nrow(rawClusters)
-  RES$delta <- d/100
-  RES$threshold <- k
-  RES$analysisType <- p
+  RES$delta <- delta
+  RES$threshold <- threshold
+  RES$analysisType <- analysisType
   RES$M <- M
   RES$rowIds <- rowIds
   RES$colIds <- colIds
@@ -174,56 +223,14 @@ CLAG.clust <- function(DATA, delta=0.05, threshold=0, analysisType=1, verbose=FA
 }
 
 
-CLAG.plotClusters <- function(RES, HC=TRUE) {
-  library(lattice)
-  
-  MAT <- RES$M
-  colIds <- RES$colIds
-  rowIds <- RES$rowIds
-  
-  if (RES$analysisType == 3) {
-    # In this case, columns correspond to elements
-    # so order columns according to the clusters.
-    rowRanks <- rank(RES$cluster)
-    rowRanks <- ifelse(RES$cluster == -1, Inf, rowRanks)
-    # Where is each column corresponding row?
-    colRows <- match(colIds, rowIds)
-    # For each column, rank of the corresponding cluster
-    colRanks <- rowRanks[colRows]
-    M <- MAT[, order(colRanks)]
-  } else {
-    if (HC) {
-      # cluster with hierarchical clustering the columns
-      M <- MAT[, hclust(dist(t(MAT), method="manhattan"))$order]
-    } else {
-      M <- MAT
-    }
-  }
-  
-  potentials <- NULL
-  for (cl in 1:RES$nclusters) {
-    if (!is.null(potentials)) {
-      potentials <- rbind(potentials, rep(-2, ncol(M)))
-    }
-    potentials <- rbind(potentials, M[which(RES$cluster == cl), ])
-  }
-  colorFun <- colorRampPalette(c("lightblue","blue","lightgreen","darkgreen","yellow" ,"orange","red", "darkred"))
-  x <- seq(0, 1, by=0.04)
-  print(levelplot(potentials,
-            scales=list(tck=0, x=list(rot=90),cex=0.1),
-            col.regions=colorFun,
-            main=NULL,
-            xlab=list("key aggregates", cex=1),
-            ylab=list("Environment", cex=1),
-            aspect="iso", at=x, cut=50))
-}
-
 
 CLAG.loadExampleData <- function(set="BREAST") {
   if (set %in% c("BREAST","BRAIN","GLOBINE")) {
     return(CLAG.readInput(paste(CLAG.data.path, "/", set, "/input.txt", sep="")))
   } else if (set == "DIM128") {
     return(read.table(paste(CLAG.data.path, "/DIM128.txt", sep="")))
+  } else if (set == "DIM128-subset") {
+    return(read.table(paste(CLAG.data.path, "/DIM128-subset.txt", sep="")))
   } else {
     stop(paste("unknown CLAG example data set:", set))
   }

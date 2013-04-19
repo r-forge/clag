@@ -48,30 +48,27 @@ First, let's load the package.
 library(CLAG)
 @
 
-Now, we load an example data set (provided with this package),
-and restrict our analysis to the first 10 columns
-(you can use all columns but calculcation will take longer).
-Then we run the CLAG algorithm on it. We use $\Delta=0.05$
-and a threshold of $0.5$ for environment score.
+Now, we load an example data set (provided with this package), then we run the CLAG algorithm on it.
 
 <<keep.source=TRUE>>=
-DATA <- CLAG.loadExampleData("DIM128")
-DATA <- DATA[,1:10]
-RES <- CLAG.clust(DATA, delta=0.05, threshold=0.5)
+DATA <- CLAG.loadExampleData("DIM128-subset")
+RES <- CLAG.clust(DATA)
 @
 
-Now, we do a Principal Component Analysis to better visualize the data, and color the points according to the clusters found by CLAG.
+Now, we do a Principal Component Analysis to better visualize the data, and color the points according to the clusters found by CLAG (or leave black unclustered points).
 
 <<keep.source=TRUE,fig=TRUE>>=
 PCA <- prcomp(DATA)
-plot(PCA$x[,1], PCA$x[,2], col=rainbow(RES$nclusters)[RES$cluster])
+clusterColors <- c("black", rainbow(RES$ncluster))
+plot(PCA$x[,1], PCA$x[,2], col=clusterColors[RES$cluster+1],
+     main=paste(RES$nclusters, "clusters"))
 @
 
 As can be seen, the clusters are perfectly detected.
 
 
 
-\bibliographystyle{plain}
+\bibliographystyle{apalike}
 \bibliography{CLAG}
 
 \end{document}

@@ -49,9 +49,9 @@ foreach $acro (@acronyme)
 #	system "R --no-save < $RCommandFile > $SUBpath/DEBUG_STEP3.txt";
 #	print "OK\n";
 #	
-#	print "DEBUG: STEP5: Cluster aggregate...";	
-#	system "./Binary/Aggregation.pl $SUBpath CLUSTERFILE.txt  aggregation.txt $parameter";
-#	print "OK\n";
+	print "DEBUG: STEP5: Cluster aggregate...";	
+	system "./Binary/Aggregation.pl $SUBpath aggregation $parameter";
+	print "OK\n";
 #	
 #	print "DEBUG: STEP6: Draw graph...";
 #	system "./Binary/5-CallNeato.pl $SUBpath $parameter";

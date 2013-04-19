@@ -5,7 +5,7 @@ $folder=shift;
 
 
 open (CLUSTERFILE,">$folder/CLUSTERFILE.txt") || die "couldn't write into the file $folder/CLUSTERFILE.txt!\n";
-print CLUSTERFILE "ECART:ENV:DETAILDIFFERENCE:ELEMENTS:NormalizeENV\n";
+print CLUSTERFILE "ENV:DETAILDIFFERENCE:ELEMENTS:NormalizeENV\n";
 %hashResult=();		
 %hashDifference=();		
 %hash_pair_Score=();

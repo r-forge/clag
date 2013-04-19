@@ -4,23 +4,18 @@ use Time::HiRes qw/gettimeofday/;
 $folder=shift;
 $filoutput=shift;
 $parameter=shift;
-$ecartVariable=shift;
 
 sub uniq {
     return keys %{{ map { $_ => 1 } @_ }};
 }
 
 $maxscore=-1;
-@ecartVariableArray=split("/",$ecartVariable);
-$index=0;
-while($index<scalar @ecartVariableArray){
 %hashCluster=();
-$ecart=$ecartVariableArray[$index];
 $elements="";
-open (FILE, "$folder/CLUSTERFILE-$ecart.txt")|| die "ERROR: CEBA couldn't open the file $folder/CLUSTERFILE-$ecart.txt";
+open (FILE, "$folder/CLUSTERFILE.txt")|| die "ERROR: CEBA couldn't open the file $folder/CLUSTERFILE.txt";
 while ($line =<FILE>)
 {
-	if ($line =~ /^DELTA/ ){}
+	if ($line =~ /^ENV/ ){}
 	elsif($line =~/^(\s)*$/ ){}
 	else{
 		chomp $line;
@@ -196,7 +191,7 @@ foreach $aggresIndex(@keyresAgg){
 
 
 $id=1;
-open (SCORES,">$folder/$filoutput-$ecart.txt") || die "ERROR: CEBA couldn't open the file $folder/$filoutput";
+open (SCORES,">$folder/$filoutput.txt") || die "ERROR: CEBA couldn't open the file $folder/$filoutput";
 @keySF=reverse sort keys %hashSort;
 foreach $sf(@keySF){
 @keySL=reverse sort keys %{$hashSort{$sf}};
@@ -213,9 +208,6 @@ close (SCORES);
 
 
 
-
-$index++;
-}
 
 
 
