@@ -13,7 +13,8 @@ CLAG.loadExampleData(set)
   If not given, prints the names of the available data sets.}
 }
 \value{
-  The returned value is a data frame.
+  The returned value is a data frame,
+  or a list with the data frame and row and column ids.
   The data sets are discribed in the article (see below).
 }
 \references{
