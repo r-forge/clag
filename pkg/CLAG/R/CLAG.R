@@ -98,7 +98,14 @@ CLAG.readClusters <- function(fpath) {
   if (!file.exists(fpath)) {
     stop("No CLAG result file.")
   }
-  return(read.table(fpath, sep=":", header=FALSE, fill=TRUE, stringsAsFactors=FALSE, row.names=NULL))
+  f <- file(fpath, open="r")
+  firstLine <- readLines(con=f, n=1)
+  close(f)
+  if (length(firstLine) == 0) {
+    return(NULL)
+  } else {
+    return(read.table(fpath, sep=":", header=FALSE, fill=TRUE, stringsAsFactors=FALSE, row.names=NULL))
+  }
 }
 
 CLAG.removeDir <- function(outputDir) {
@@ -194,12 +201,12 @@ CLAG.clust <- function(M,
   
   RES <- list()
   RES$cluster <- rep(0L, nrow(M))
-  if (nrow(rawClusters) > 0) {
+  if (!is.null(rawClusters) && nrow(rawClusters) > 0) {
     for (i in 1:nrow(rawClusters)) {
       elements <- as.integer(strsplit(rawClusters[i,1], split=" ")[[1]])
       indices <- match(elements, rowIds)
       if (any(RES$cluster[indices] != 0L)) {
-        stop("element in 2 clusters")
+        stop("unexpected error: element in 2 key aggregates")
       }
       RES$cluster[indices] <- i
       if (analysisType == 3) {
@@ -212,8 +219,10 @@ CLAG.clust <- function(M,
         RES$lastEnvScore <- c(RES$lastScores, as.numeric(rawClusters[i,4]))
       }
     }
+    RES$nclusters <- nrow(rawClusters)
+  } else {
+    RES$nclusters <- 0
   }
-  RES$nclusters <- nrow(rawClusters)
   RES$delta <- delta
   RES$threshold <- threshold
   RES$analysisType <- analysisType
