@@ -129,6 +129,8 @@ CLAG.clust <- function(M,
       stop("delta must be between 0 and 1")
     }
     d <- 100*delta
+  } else {
+    d <- 0
   }
   
   if (is.null(rowIds)) {
@@ -224,9 +226,13 @@ CLAG.clust <- function(M,
 
 
 
-CLAG.loadExampleData <- function(set="BREAST") {
-  if (set %in% c("BREAST","BRAIN","GLOBINE")) {
-    return(CLAG.readInput(paste(CLAG.data.path, "/", set, "/input.txt", sep="")))
+CLAG.loadExampleData <- function(set=NULL) {
+  if (is.null(set)) {
+    cat("Available data sets: BREAST, GLOBINE, DIM128, DIM128-subset\n")
+    return(NULL)
+  }
+  if (set %in% c("BREAST","GLOBINE")) {
+    return(CLAG.readInput(paste(CLAG.data.path, "/", set, ".txt", sep="")))
   } else if (set == "DIM128") {
     return(read.table(paste(CLAG.data.path, "/DIM128.txt", sep="")))
   } else if (set == "DIM128-subset") {
