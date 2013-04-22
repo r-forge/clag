@@ -482,4 +482,4 @@ $yesValue=0;
 		close (CLUSTERFILEALL);
 		$index=$index+1;
 }
-exit;
+exit 0;

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd pkg
+R CMD INSTALL CLAG
+

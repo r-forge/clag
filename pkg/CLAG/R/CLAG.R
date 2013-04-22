@@ -31,6 +31,17 @@
 # CLAG: an unsupervised non hierarchical clustering algorithm
 # handling biological data, by Linda Dib and Alessandra Carbone
 
+.onLoad <- function(libname, pkgname) {
+	if (system2("perl", args=c("--version"), stdout=FALSE, stderr=FALSE) != 0) {
+    cat("WARNING: Perl not found. You need to install Perl to use CLAG.\n", file=stderr())
+    if (.Platform$OS.type == "windows") {
+      cat("You can download a Perl distribution from: http://strawberryperl.com/\n", file=stderr())
+    }
+	} else {
+    #cat("CLAG ready.\n", file=stderr())
+	}
+}
+
 CLAG.path <- system.file("Perl/TOOLCLAG-minimal", package="CLAG")
 CLAG.data.path <- system.file("extdata/dataCLAG", package="CLAG")
 
@@ -74,7 +85,7 @@ CLAG.exec <- function(f, p=1, k=0, d=NULL, verbose=TRUE) {
   if (!file.exists(exefile)) {
     stop(paste(exefile, "does not exist"))
   }
-  cargs <- c(paste("-f=", f, sep=""),
+  cargs <- c(paste("-f=", shQuote(f), sep=""),
              paste("-p=", p, sep=""))
   if (!is.null(k)) {
     cargs <- c(cargs, paste("-k=", k, sep=""))
@@ -82,16 +93,23 @@ CLAG.exec <- function(f, p=1, k=0, d=NULL, verbose=TRUE) {
   if (!is.null(d)) {
     cargs <- c(cargs, paste("-d=", d, sep=""))
   }
-  if (verbose) cat(exefile, paste(cargs, collapse=" "), "\n")
+  cargs <- c(shQuote(exefile), cargs)
+  if (verbose) cat("perl", paste(cargs, collapse=" "), "\n")
   oldwd <- getwd()
   setwd(CLAG.path)
   if (verbose) {
-    stdout <- ""
+    stdoutSetting <- ""
   } else {
-    stdout <- FALSE
+    stdoutSetting <- FALSE
   }
-  system2(exefile, args=cargs, stdout=stdout)
+  status <- system2("perl", args=cargs, stdout=stdoutSetting)
   setwd(oldwd)
+  
+  if (status == 0) {
+    return(0)
+  } else {
+    return(1)
+  }
 }
 
 CLAG.readClusters <- function(fpath) {
@@ -141,6 +159,12 @@ CLAG.clust <- function(M,
     d <- 100*delta
   } else {
     d <- 0
+  }
+  
+  if (analysisType == 3) {
+    if (is.null(colIds) && nrow(M) != ncol(M)) {
+      stop("No column ids provided although analysisType=3 and matrix is non-square")
+    }
   }
   
   if (is.null(rowIds)) {
@@ -197,15 +221,24 @@ CLAG.clust <- function(M,
   if (verbose) cat("Writing to", outdir, "\n")
   fn <- paste(outdir, "/input.txt", sep="")
   CLAG.writeInput(M, fn, rowIds=rowIds, colIds=colIds)
-  CLAG.exec(f=outdir, p=analysisType, k=threshold, d=d, verbose=verbose)
-  if (analysisType != 2) {
-    respath <- paste(outdir, "/aggregation-", d, ".txt", sep="")
-  } else {
-    respath <- paste(outdir, "/aggregation.txt", sep="")
+  
+  status <- CLAG.exec(f=outdir, p=analysisType, k=threshold, d=d, verbose=verbose)
+  
+  if (status == 0) {
+    if (analysisType != 2) {
+      respath <- paste(outdir, "/aggregation-", d, ".txt", sep="")
+    } else {
+      respath <- paste(outdir, "/aggregation.txt", sep="")
+    }
+    rawClusters <- CLAG.readClusters(respath)
   }
-  rawClusters <- CLAG.readClusters(respath)
+  
   if (!keepTempFiles) {
     CLAG.removeDir(outdir)
+  }
+  
+  if (status != 0) {
+    stop("CLAG failed")
   }
   
   RES$cluster <- rep(0L, nrow(M))
