@@ -25,16 +25,16 @@ foreach $acro (@acronyme)
 	
 	$SUBpath=substr($acro, 0,((length $acro)-10));
 	print "\n\nJOB SUMMARY\n";
-    print "Folder: $SUBpath\n";
+	print "Folder: $SUBpath\n";
 	print "-----------------------------------\n\n";
 	
 	print "DEBUG: STEP1: Cluster";	
-	system "./SPECIFIC/1-CoEvScoring.pl $SUBpath $delta";
+	system($^X, "./SPECIFIC/1-CoEvScoring.pl", $SUBpath, $delta);
 	
 	print "OK\n";
 
 	print "DEBUG: STEP2: Cluster aggregate...";	
-	system "./SPECIFIC/Aggregation.pl $SUBpath aggregation $parameter $delta";
+	system($^X, "./SPECIFIC/Aggregation.pl", $SUBpath, "aggregation", $parameter, $delta);
 	print "OK\n";
 	
 #	print "DEBUG: STEP3: CLAG displays matrix...";		

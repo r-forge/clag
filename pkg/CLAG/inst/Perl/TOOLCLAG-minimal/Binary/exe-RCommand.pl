@@ -28,7 +28,7 @@ foreach $acro (@acronyme)
 	print "-----------------------------------\n\n";
 	#system "cp $acro $SUBpath/input.txt";
 	print "DEBUG: STEP1: Cluster...";	
-	system "./Binary/1-CoEvScoring.pl $SUBpath  ";
+	system($^X, "./Binary/1-CoEvScoring.pl", $SUBpath);
 	print "OK\n";
 
 #	print "DEBUG: STEP2: CLAG displays matrix...";		
@@ -50,7 +50,7 @@ foreach $acro (@acronyme)
 #	print "OK\n";
 #	
 	print "DEBUG: STEP5: Cluster aggregate...";	
-	system "./Binary/Aggregation.pl $SUBpath aggregation $parameter";
+	system($^X, "./Binary/Aggregation.pl", $SUBpath, "aggregation", $parameter);
 	print "OK\n";
 #	
 #	print "DEBUG: STEP6: Draw graph...";

@@ -22,14 +22,14 @@ if($program eq 1){
 }else{
 	if($program eq 2){
 		print "BINARY matrix\n";	
-		$res = system "./Binary/exe-RCommand.pl -f=$path -k=$parameter";	
+		$res = system($^X, "./Binary/exe-RCommand.pl", "-f=$path", "-k=$parameter");
 	}else{
 		if($program eq 3){
 			print "SPECIFIC matrix where N=M\n";
-			$res = system "./SPECIFIC/exe-RCommand.pl -f=$path -k=$parameter -d=$delta";
+			$res = system($^X, "./SPECIFIC/exe-RCommand.pl" ,"-f=$path", "-k=$parameter", "-d=$delta");
 			
 		}else{
-			print "ERROR";
+			print "ERROR: Please specify -p=1, 2 or 3";
 			exit 1;
 		}
 	}

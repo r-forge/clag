@@ -25,9 +25,3 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Author of R package: Raphael Champeimont
-# UMR 7238 Genomique des Microorganismes
-# This R package allows for easy use of CLAG.
-# CLAG: an unsupervised non hierarchical clustering algorithm
-# handling biological data, by Linda Dib and Alessandra Carbone
-
