@@ -17,8 +17,6 @@ $delta= "5/10/20/40";
 
 if($program eq 1){
 	print "GENERAL matrix\n";
-	system "mv $path/input.txt $path/inputOriginal.txt";
-	system "./0-Pretreatement.pl $path/";
 	system "./AnyMatrix/exe-RCommand.pl -f=$path -k=$parameter -d=$delta";	
 }else{
 	if($program eq 2){
@@ -27,8 +25,6 @@ if($program eq 1){
 	}else{
 		if($program eq 3){
 			print "SPECIFIC matrix where N=M\n";
-			system "mv $path/input.txt $path/inputOriginal.txt";
-			system "./0-Pretreatement.pl $path/";
 			system "./SPECIFIC/exe-RCommand.pl -f=$path -k=$parameter -d=$delta";
 			
 		}else{

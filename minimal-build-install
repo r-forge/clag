@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd pkg
+R CMD build --no-vignettes CLAG && R CMD INSTALL CLAG_2.0.tar.gz
+

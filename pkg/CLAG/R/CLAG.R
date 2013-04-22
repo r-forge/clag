@@ -123,6 +123,9 @@ CLAG.clust <- function(M,
                        verbose=FALSE,
                        keepTempFiles=FALSE) {
   
+  RES <- list()
+  RES$M <- M
+  
   if (analysisType != 1 && analysisType != 2 && analysisType != 3) {
     stop("analysisType must be 1, 2, or 3")
   } else {
@@ -168,19 +171,25 @@ CLAG.clust <- function(M,
     }
   }
   
-  if (normalization == "affine-global") {
-    # do nothing, it is done automatically by CLAG
-  } else if (normalization == "affine-column") {
-    for (j in 1:ncol(M)) {
-      r <- range(M[,j], na.rm=TRUE)
-      M[,j] <- (M[,j] - r[1])/(r[2] - r[1])
+  if (analysisType != 2) {
+    if (normalization == "affine-global") {
+      r <- range(M, na.rm=TRUE)
+      M <- (M - r[1])/(r[2] - r[1])
+    } else if (normalization == "affine-column") {
+      for (j in 1:ncol(M)) {
+        r <- range(M[,j], na.rm=TRUE)
+        M[,j] <- (M[,j] - r[1])/(r[2] - r[1])
+      }
+    } else if (normalization == "rank-column") {
+      for (j in 1:ncol(M)) {
+        M[,j] <- (rank(M[,j]) - 1)/(nrow(M) - 1)
+      }
+    } else {
+      stop("invalid normalization method specified")
     }
-  } else if (normalization == "rank-column") {
-    for (j in 1:ncol(M)) {
-      M[,j] <- rank(M[,j])
-    }
+    RES$A <- M
   } else {
-    stop("invalid normalization method specified")
+    normalization <- NULL
   }
 
   outdir <- tempfile("CLAG_")
@@ -199,7 +208,6 @@ CLAG.clust <- function(M,
     CLAG.removeDir(outdir)
   }
   
-  RES <- list()
   RES$cluster <- rep(0L, nrow(M))
   if (!is.null(rawClusters) && nrow(rawClusters) > 0) {
     for (i in 1:nrow(rawClusters)) {
@@ -226,7 +234,6 @@ CLAG.clust <- function(M,
   RES$delta <- delta
   RES$threshold <- threshold
   RES$analysisType <- analysisType
-  RES$M <- M
   RES$rowIds <- rowIds
   RES$colIds <- colIds
   RES$rawClusters <- rawClusters
