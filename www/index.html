@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CLAG R package</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<img src="screenshot.png" style="float: right; width: 200px; margin-left: 10px;">
+<h1>CLAG R package</h2>
+<p>
+CLAG (for CLusters AGgregation) is an unsupervised non hierarchical <b>clustering algorithm</b> originally described in this article: <a href="http://www.biomedcentral.com/1471-2105/13/194/">CLAG: an unsupervised non hierarchical clustering algorithm handling biological data, Linda Dib and Alessandra Carbone, <i>BMC Bioinformatics</i> 2012</a>.
+</p>
+<p>
+This website provides an R package that allows for easier use of this method than the original set of Perl scripts. It provides a function (CLAG.clust) which takes as input a matrix and returns the 
+clustering, like standard R function do (hclust, kmeans, etc.)
+</p>
+
+<h2>How to intall it</h2>
+<h3>Linux</h3>
+<p>
+First, <a href="CLAG.tar.gz">click here to download the source package</a>.
+Then, in a terminal, run:
+</p>
+<pre>
+install.packages("[put-correct-path-here]/CLAG.tar.gz", repos=NULL, type="source")
+</pre>
+
+<h2>How to use it</h2>
+<p>We provide a <a href="CLAG-tutorial.pdf">tutorial (PDF)</a>.</p>
+<p>You can get detailed help with the regular help function in R like this:</p>
+<pre>
+library(CLAG)
+help(CLAG.clust)
+</pre>
+
+<h2>Links</h2>
+<ul>
+<li><a href="https://r-forge.r-project.org/projects/clag/">Project page on R-Forge, where you can report bugs and suggest new features</a></li>
+<li><a href="http://www.biomedcentral.com/1471-2105/13/194/">CLAG: an unsupervised non hierarchical clustering algorithm handling biological data, Linda Dib and Alessandra Carbone, <i>BMC Bioinformatics</i> 2012</a></li>
+</ul>
+</body>
+</html>
