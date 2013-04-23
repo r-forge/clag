@@ -12,7 +12,7 @@
 
 \newcommand{\Rfunc}[1]{\mbox{{\small\texttt{#1}}}}
 
-\title{CLAG: an unsupervised\\
+\title{R-CLAG: an unsupervised\\
 non hierarchical clustering algorithm\\
 handling biological data}
 
@@ -42,7 +42,7 @@ This package allows to use the CLAG clustering algorithm decribed in \cite{CLAG}
 
 \section{Example with an artificial data set}
 
-First, let's load the package.
+First, let's load the CLAG R package.
 
 <<keep.source=TRUE>>=
 library(CLAG)
@@ -93,7 +93,7 @@ heatmap(M2, symm=TRUE, Colv=NA, Rowv=NA, scale="none", col=colorScale,
         ColSideColors=clusterColors, RowSideColors=clusterColors)
 @
 
-Notice that group of elements which have a high correlation between each other are clustered together, and that elements which have low correlation with every other are left unclustered.
+Notice that groups of elements which have a high correlation between each other are clustered together, and that elements which have low correlation with every other are left unclustered.
 
 
 \bibliographystyle{apalike}
