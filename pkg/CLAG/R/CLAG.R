@@ -33,9 +33,9 @@
 
 .onLoad <- function(libname, pkgname) {
 	if (system2("perl", args=c("--version"), stdout=FALSE, stderr=FALSE) != 0) {
-	  packageStartupMessage("WARNING: Perl not found. You need to install Perl to use CLAG.")
+	  warning("WARNING: Perl not found. You need to install Perl to use CLAG.")
     if (.Platform$OS.type == "windows") {
-      packageStartupMessage("You can download a Perl distribution from: http://strawberryperl.com/")
+      warning("You can download a Perl distribution from: http://strawberryperl.com/")
     }
 	} else {
 	  packageStartupMessage("CLAG ready.")
