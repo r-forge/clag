@@ -1,5 +1,6 @@
 #!/bin/bash
 
 cd pkg
-R CMD build CLAG && R CMD check CLAG && R CMD INSTALL CLAG_2.0.tar.gz
+rm -fv *.tar.gz
+R CMD build CLAG && R CMD check CLAG && R CMD INSTALL CLAG_*.tar.gz
 
