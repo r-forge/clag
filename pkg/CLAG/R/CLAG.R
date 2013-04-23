@@ -31,7 +31,7 @@
 # CLAG: an unsupervised non hierarchical clustering algorithm
 # handling biological data, by Linda Dib and Alessandra Carbone
 
-.onLoad <- function(libname, pkgname) {
+.onAttach <- function(libname, pkgname) {
 	if (system2("perl", args=c("--version"), stdout=FALSE, stderr=FALSE) != 0) {
 	  warning("WARNING: Perl not found. You need to install Perl to use CLAG.")
     if (.Platform$OS.type == "windows") {
