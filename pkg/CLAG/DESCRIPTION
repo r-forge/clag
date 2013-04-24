@@ -9,3 +9,4 @@ Description: CLAG (for CLusters AGgregation) is an unsupervised non hierarchical
 License: BSD
 LazyLoad: yes
 Depends: R (>= 2.11)
+URL: http://clag.r-forge.r-project.org/
