@@ -29,12 +29,12 @@ foreach $acro (@acronyme)
 	print "-----------------------------------\n\n";
 	
 	print "DEBUG: STEP1: Cluster";	
-	system($^X, "./SPECIFIC/1-CoEvScoring.pl", $SUBpath, $delta);
+	system($^X, "./SPECIFIC/1-CoEvScoring.pl", $SUBpath, $delta) == 0 || die "1-CoEvScoring.pl failed";
 	
 	print "OK\n";
 
 	print "DEBUG: STEP2: Cluster aggregate...";	
-	system($^X, "./SPECIFIC/Aggregation.pl", $SUBpath, "aggregation", $parameter, $delta);
+	system($^X, "./SPECIFIC/Aggregation.pl", $SUBpath, "aggregation", $parameter, $delta) == 0 || die "Aggregation.pl failed";
 	print "OK\n";
 	
 #	print "DEBUG: STEP3: CLAG displays matrix...";		
