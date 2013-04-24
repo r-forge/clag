@@ -12,3 +12,4 @@ Differences with original CLAG:
 - fix "binary" mode
 - remove pretreatement as it is done by the R code
 - Windows compatibility added
+- added -verbose argument

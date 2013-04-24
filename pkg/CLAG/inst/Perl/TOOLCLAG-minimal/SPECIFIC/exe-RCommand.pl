@@ -24,18 +24,24 @@ foreach $acro (@acronyme)
 	
 	
 	$SUBpath=substr($acro, 0,((length $acro)-10));
-	print "\n\nJOB SUMMARY\n";
-	print "Folder: $SUBpath\n";
-	print "-----------------------------------\n\n";
+	if ($verbose) {
+		print "\n\nJOB SUMMARY\n";
+		print "Folder: $SUBpath\n";
+		print "-----------------------------------\n\n";
 	
-	print "DEBUG: STEP1: Cluster";	
+		print "DEBUG: STEP1: Cluster";	
+	}
 	system($^X, "./SPECIFIC/1-CoEvScoring.pl", $SUBpath, $delta) == 0 || die "1-CoEvScoring.pl failed";
 	
-	print "OK\n";
+	if ($verbose) {
+		print "OK\n";
 
-	print "DEBUG: STEP2: Cluster aggregate...";	
+		print "DEBUG: STEP2: Cluster aggregate...";	
+	}
 	system($^X, "./SPECIFIC/Aggregation.pl", $SUBpath, "aggregation", $parameter, $delta) == 0 || die "Aggregation.pl failed";
-	print "OK\n";
+	if ($verbose) {
+		print "OK\n";
+	}
 	
 #	print "DEBUG: STEP3: CLAG displays matrix...";		
 #	system "./SPECIFIC/2-MatrixNONClusterized.pl $SUBpath ";

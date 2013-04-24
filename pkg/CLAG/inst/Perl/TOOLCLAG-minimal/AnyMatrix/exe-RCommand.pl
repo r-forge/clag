@@ -27,23 +27,29 @@ foreach $acro (@acronyme)
 	
 	
 	$SUBpath=substr($acro, 0,((length $acro)-10));
-	print "\n\nJOB SUMMARY\n";
-	print "Folder: $SUBpath\n";
+	if ($verbose) {
+		print "\n\nJOB SUMMARY\n";
+		print "Folder: $SUBpath\n";
 
-	print "-----------------------------------\n\n";
+		print "-----------------------------------\n\n";
 	
-	print "DEBUG: STEP1: Cluster...";	
-	#my $clock0= gettimeofday();
+		print "DEBUG: STEP1: Cluster...";	
+		#my $clock0= gettimeofday();
+	}
 	system($^X, "./AnyMatrix/1-CoEvScoring.pl", $SUBpath, $delta) == 0 || die "1-CoEvScoring.pl failed";
-	#my $clock1= gettimeofday();
-	print "OK\n";
-	print "\n Time1: ".($clock1-$clock0)."s\n";
-	print "DEBUG: STEP2: Cluster aggregate...";	
-	#my $clock0= gettimeofday();
+	if ($verbose) {
+		#my $clock1= gettimeofday();
+		print "OK\n";
+		#print "\n Time1: ".($clock1-$clock0)."s\n";
+		print "DEBUG: STEP2: Cluster aggregate...";	
+		#my $clock0= gettimeofday();
+	}
 	system($^X, "./AnyMatrix/Aggregation.pl", $SUBpath, "aggregation", $parameter, $delta) == 0 || die "Aggregation.pl failed";
-	#my $clock1= gettimeofday();
-	#print "\n Time2: ".($clock1-$clock0)."s\n";
-	print "OK\n";
+	if ($verbose) {
+		#my $clock1= gettimeofday();
+		#print "\n Time2: ".($clock1-$clock0)."s\n";
+		print "OK\n";
+	}
 
 	
 #	print "DEBUG: STEP3: Draw graph...";

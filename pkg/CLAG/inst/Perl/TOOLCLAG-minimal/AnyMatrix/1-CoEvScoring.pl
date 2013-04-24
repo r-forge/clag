@@ -33,7 +33,7 @@ return (sort{$a<=>$b} @$aref)[$percentile];
 $index=0;
 while($index<scalar @ecartVariableArray){
 	$ecart=$ecartVariableArray[$index];
-	print "\n\nBEGIN PROCESS ECART:$ecart...\n";
+#	print "\n\nBEGIN PROCESS ECART:$ecart...\n";
 	open (CLUSTERFILE,">$folder/CLUSTERFILE-$ecart.txt") || die "couldn't write into the file $folder/CLUSTERFILE-$ecart.txt!";
 	open (CLUSTERFILEALL,">$folder/CLUSTERFILE-COMPLETE-$ecart.txt") || die "couldn't write into the file $folder/CLUSTERFILE-COMPLETE-$ecart.txt!";
 	print CLUSTERFILE "DELTA:ENV:DETAILDIFFERENCE:ELEMENTS :Normalize ENV\n";

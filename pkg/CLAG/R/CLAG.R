@@ -93,16 +93,14 @@ CLAG.exec <- function(f, p=1, k=0, d=NULL, verbose=TRUE) {
   if (!is.null(d)) {
     cargs <- c(cargs, paste("-d=", d, sep=""))
   }
+  if (verbose) {
+    cargs <- c(cargs, "-verbose")
+  }
   cargs <- c(shQuote(exefile), cargs)
   if (verbose) cat("perl", paste(cargs, collapse=" "), "\n")
   oldwd <- getwd()
   setwd(CLAG.path)
-  if (verbose) {
-    stdoutSetting <- ""
-  } else {
-    stdoutSetting <- FALSE
-  }
-  status <- system2("perl", args=cargs, stdout=stdoutSetting)
+  status <- system2("perl", args=cargs)
   setwd(oldwd)
   
   if (status == 0) {
