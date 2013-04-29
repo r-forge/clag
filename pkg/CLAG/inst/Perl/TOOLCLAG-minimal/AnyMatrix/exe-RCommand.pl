@@ -1,7 +1,5 @@
 #!/usr/bin/perl -s
-use Getopt::Std;
 use Time::HiRes qw/gettimeofday/;
-getopts("f:k:d");
 
 $SUBpath=$f;
 $parameter= $k;
