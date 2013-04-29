@@ -1,7 +1,7 @@
 Package: CLAG
 Type: Package
 Title: CLAG: an unsupervised non hierarchical clustering algorithm handling biological data
-Version: 2.5
+Version: 2.6
 Date: 2013-04-12
 Author: Linda DIB, Raphael CHAMPEIMONT, Alessandra CARBONE
 Maintainer: Raphael CHAMPEIMONT <raphael.champeimont@upmc.fr>
