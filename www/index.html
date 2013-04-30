@@ -7,7 +7,7 @@
 </head>
 <body>
 <img src="screenshot.png" style="float: right; width: 200px; margin-left: 10px;">
-<h1>CLAG R package</h2>
+<h1>CLAG R package</h1>
 <p>
 CLAG (for CLusters AGgregation) is an unsupervised non hierarchical <b>clustering algorithm</b> originally described in this article: <a href="http://www.biomedcentral.com/1471-2105/13/194/">CLAG: an unsupervised non hierarchical clustering algorithm handling biological data, Linda Dib and Alessandra Carbone, <i>BMC Bioinformatics</i> 2012</a>.
 </p>
@@ -20,7 +20,7 @@ clustering, like standard R function do (hclust, kmeans, etc.)
 <h3>Linux and Mac OS X</h3>
 <p>In R, run:</p>
 <pre>
-tmp <- tempfile(fileext=".tar.gz")
+tmp &lt;- tempfile(fileext=".tar.gz")
 download.file("http://clag.r-forge.r-project.org/CLAG.tar.gz", tmp)
 install.packages(tmp, repos=NULL, type="source")
 </pre>
