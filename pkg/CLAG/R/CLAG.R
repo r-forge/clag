@@ -159,8 +159,8 @@ CLAG.clust <- function(M,
   }
   
   if (analysisType == 3) {
-    if (is.null(colIds) && nrow(M) != ncol(M)) {
-      stop("No column ids provided although analysisType=3 and matrix is non-square")
+    if (is.null(rowIds) && nrow(M) != ncol(M)) {
+      stop("No row ids provided although analysisType=3 and matrix is non-square")
     }
   }
   
@@ -187,7 +187,7 @@ CLAG.clust <- function(M,
   }
   
   if (analysisType == 3) {
-    if (!all(colIds %in% rowIds)) {
+    if (!all(rowIds %in% colIds)) {
       stop("column ids need to be a subset of row ids when analysisType=3")
     }
   }

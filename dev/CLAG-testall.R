@@ -60,6 +60,31 @@ heatmap(M2, symm=TRUE, Colv=NA, Rowv=NA, scale="none", col=colorScale,
         ColSideColors=clusterColors, RowSideColors=clusterColors)
 
 
+
+cat("Test specific matrix\n")
+data(GLOBINE, package="CLAG")
+M <- GLOBINE$M
+M <- M[1:30,]
+RES <- CLAG.clust(M, delta=0.2, threshold=0.5, analysisType=3, rowIds=1:30)
+o <- order(RES$cluster)
+M2 <- M[o,o]
+clusterColors <- c("black", rainbow(RES$nclusters))[RES$cluster[o]+1]
+colorScale <- colorRampPalette(c("blue", "green","yellow","red","darkred"))(1000)
+heatmap(M2, symm=TRUE, Colv=NA, Rowv=NA, scale="none", col=colorScale,
+        ColSideColors=clusterColors, RowSideColors=clusterColors)
+
+data(GLOBINE, package="CLAG")
+M <- GLOBINE$M
+M <- M[1:30,1:30]
+RES <- CLAG.clust(M, delta=0.2, threshold=0.5, analysisType=3)
+o <- order(RES$cluster)
+M2 <- M[o,o]
+clusterColors <- c("black", rainbow(RES$nclusters))[RES$cluster[o]+1]
+colorScale <- colorRampPalette(c("blue", "green","yellow","red","darkred"))(1000)
+heatmap(M2, symm=TRUE, Colv=NA, Rowv=NA, scale="none", col=colorScale,
+        ColSideColors=clusterColors, RowSideColors=clusterColors)
+
+
 invisible(dev.off())
 
 
