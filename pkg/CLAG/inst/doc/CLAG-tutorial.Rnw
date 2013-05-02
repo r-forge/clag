@@ -51,7 +51,7 @@ library(CLAG)
 Now, we load an example data set (provided with this package), then we run the CLAG algorithm on it.
 
 <<keep.source=TRUE>>=
-data("DIM128_subset", package="CLAG")
+data(DIM128_subset, package="CLAG")
 RES <- CLAG.clust(DIM128_subset)
 @
 
