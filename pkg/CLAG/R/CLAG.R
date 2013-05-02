@@ -278,12 +278,18 @@ CLAG.loadExampleData <- function(set=NULL) {
     cat("Available data sets: BREAST, GLOBINE, DIM128, DIM128-subset\n")
     return(NULL)
   }
-  if (set %in% c("BREAST","GLOBINE")) {
-    return(CLAG.readInput(paste(CLAG.data.path, "/", set, ".txt", sep="")))
+  if (set == "BREAST") {
+    data(BREAST)
+    return(BREAST)
+  } else if (set == "GLOBINE") {
+    data(GLOBINE)
+    return(GLOBINE)
   } else if (set == "DIM128") {
-    return(read.table(paste(CLAG.data.path, "/DIM128.txt", sep="")))
+    data(DIM128)
+    return(DIM128)
   } else if (set == "DIM128-subset") {
-    return(read.table(paste(CLAG.data.path, "/DIM128-subset.txt", sep="")))
+    data(DIM128_subset)
+    return(DIM128_subset)
   } else {
     stop(paste("unknown CLAG example data set:", set))
   }

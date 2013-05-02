@@ -1,0 +1,67 @@
+# Author: Raphael Champeimont
+# UMR 7238 Genomique des Microorganismes
+
+rm(list=ls())
+
+while (sink.number() > 0)
+  sink()
+#while (length(dev.list()) > 0)
+#  dev.off()
+
+if (exists("CLAG.clust")) {
+  detach("package:CLAG", unload=TRUE)
+}
+library(CLAG)
+
+# Load my functions
+MYDOCPATH <- Sys.getenv("MYDOCPATH")[[1]]
+R_SCRIPTS_PATH <- paste(MYDOCPATH, "/A/R-scripts", sep="")
+source(paste(R_SCRIPTS_PATH, "/auxfunctions.R", sep=""))
+
+setwd("~/Documents/CLAG-tests/")
+
+
+pdf("plots_test_all.pdf")
+
+
+cat("Test general matrix\n")
+# First example with real variables
+DATA <- CLAG.loadExampleData("DIM128-subset")
+RES <- CLAG.clust(DATA)
+# Display points in 2D using a PCA and color them by cluster
+# except unclunsted points which are left black.
+PCA <- prcomp(DATA)
+clusterColors <- c("black", rainbow(RES$ncluster))
+plot(PCA$x[,1], PCA$x[,2], col=clusterColors[RES$cluster+1], main=paste(RES$nclusters, "clusters"))
+
+
+cat("Test binary matrix\n")
+# Second example with boolean variables
+# (we replace each variable with TRUE or FALSE
+# depending on whether the value is below or above 128)
+DATA2 <- DATA > 128
+RES <- CLAG.clust(DATA2, analysisType=2)
+PCA <- prcomp(DATA2)
+clusterColors <- c("black", rainbow(RES$ncluster))
+plot(PCA$x[,1], PCA$x[,2], col=clusterColors[RES$cluster+1], main=paste(RES$nclusters, "clusters"))
+
+
+
+
+cat("Test specific matrix\n")
+DATA <- CLAG.loadExampleData("GLOBINE")
+M <- DATA$M
+RES <- CLAG.clust(M, delta=0.2, threshold=0.5, analysisType=3)
+o <- order(RES$cluster)
+M2 <- M[o,o]
+clusterColors <- c("black", rainbow(RES$nclusters))[RES$cluster[o]+1]
+colorScale <- colorRampPalette(c("blue", "green","yellow","red","darkred"))(1000)
+heatmap(M2, symm=TRUE, Colv=NA, Rowv=NA, scale="none", col=colorScale,
+        ColSideColors=clusterColors, RowSideColors=clusterColors)
+DATA <- CLAG.loadExampleData("GLOBINE")
+M <- DATA$M
+RES <- CLAG.clust(M, delta=0.2, threshold=0.5, analysisType=3)
+
+invisible(dev.off())
+
+
