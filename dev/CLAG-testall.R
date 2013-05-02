@@ -26,11 +26,11 @@ pdf("plots_test_all.pdf")
 
 cat("Test general matrix\n")
 # First example with real variables
-DATA <- CLAG.loadExampleData("DIM128-subset")
-RES <- CLAG.clust(DATA)
+data(DIM128_subset, package="CLAG")
+RES <- CLAG.clust(DIM128_subset)
 # Display points in 2D using a PCA and color them by cluster
 # except unclunsted points which are left black.
-PCA <- prcomp(DATA)
+PCA <- prcomp(DIM128_subset)
 clusterColors <- c("black", rainbow(RES$ncluster))
 plot(PCA$x[,1], PCA$x[,2], col=clusterColors[RES$cluster+1], main=paste(RES$nclusters, "clusters"))
 
@@ -39,7 +39,7 @@ cat("Test binary matrix\n")
 # Second example with boolean variables
 # (we replace each variable with TRUE or FALSE
 # depending on whether the value is below or above 128)
-DATA2 <- DATA > 128
+DATA2 <- DIM128_subset > 128
 RES <- CLAG.clust(DATA2, analysisType=2)
 PCA <- prcomp(DATA2)
 clusterColors <- c("black", rainbow(RES$ncluster))
@@ -49,8 +49,8 @@ plot(PCA$x[,1], PCA$x[,2], col=clusterColors[RES$cluster+1], main=paste(RES$nclu
 
 
 cat("Test specific matrix\n")
-DATA <- CLAG.loadExampleData("GLOBINE")
-M <- DATA$M
+data(GLOBINE, package="CLAG")
+M <- GLOBINE$M
 RES <- CLAG.clust(M, delta=0.2, threshold=0.5, analysisType=3)
 o <- order(RES$cluster)
 M2 <- M[o,o]
@@ -58,9 +58,7 @@ clusterColors <- c("black", rainbow(RES$nclusters))[RES$cluster[o]+1]
 colorScale <- colorRampPalette(c("blue", "green","yellow","red","darkred"))(1000)
 heatmap(M2, symm=TRUE, Colv=NA, Rowv=NA, scale="none", col=colorScale,
         ColSideColors=clusterColors, RowSideColors=clusterColors)
-DATA <- CLAG.loadExampleData("GLOBINE")
-M <- DATA$M
-RES <- CLAG.clust(M, delta=0.2, threshold=0.5, analysisType=3)
+
 
 invisible(dev.off())
 
