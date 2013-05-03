@@ -13,12 +13,23 @@ library(CLAG)
 # Load my functions
 MYDOCPATH <- Sys.getenv("MYDOCPATH")[[1]]
 R_SCRIPTS_PATH <- paste(MYDOCPATH, "/A/R-scripts", sep="")
+
 source(paste(R_SCRIPTS_PATH, "/auxfunctions.R", sep=""))
+
+source("~/svn/clag/dev/CLAG-extra.R")
 
 setwd("~/Documents/CLAG-tests/")
 
 data(DIM128_subset)
 DATA <- DIM128_subset
+
+correctClustering <- c(1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 
+                       4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 7, 7, 
+                       7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 
+                       10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 
+                       13, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 
+                       15, 15, 15, 16, 16, 16, 16, 16, 16, 16)
+
 
 pdf("plots3.pdf")
 
@@ -76,12 +87,25 @@ for (caseNumber in 1:3) {
         k <- k + 1
       }
       
-      plot(-PCA$x[,1], PCA$x[,2], col=mapColors(clusterRemapped),
-           main=paste("DIM128 ", caseName, " normalization=", normalizationMethod, " delta=", delta, " #clusters=", RES$nclusters, sep=""))
+      mapping <- CLAG.compareClusterings(RES$cluster, correctClustering)
+      stop()
+      plot(-PCA$x[,1], PCA$x[,2], col=mapColors(clusterRemapped), pch=4,
+           main=paste("DIM128 ", caseName, " normalization=", normalizationMethod, " delta=", delta, " #clusters=", RES$nclusters, " bad=", mapping$bad, sep=""))
+      
     }
   }
 }
 
 dev.off()
 
+
+pdf("~/Documents/workspace/RCLAGarticle/figures/clusters.pdf")
+
+oldmar <- par("mar")
+par(mar=c(2, 2, 0.5, 0.5))
+plot(-PCA$x[,1], PCA$x[,2], col=mapColors(clusterRemapped),
+     xlab=NA, ylab=NA, main=NA, pch=4, cex=2)
+par(mar=oldmar)
+
+dev.off()
 
