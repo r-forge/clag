@@ -75,10 +75,17 @@ CLAG.mapClusteringsAux <- function(cl1, cl2) {
 
 
 # Given two clusterings, find the best association between clusters
-# such that the number of differently clustered element is minimum.
-# Assumed:
+# of cl1 with clusters of cl2
+# (injective in both directions - but not necessarly surjective)
+# such that the number of differently clustered elements is minimum.
+# An element e is identicaly clustered if one of these conditions is true:
+# 1. it belongs to a cluster i in cl1 
+#    and j in cl2 and i is associated with j.
+# 2. e is unclustered in both cl1 and cl2
+# Differently clustered is the opposite.
+# Conventions:
 # 0 = unclustered
-# integer >= 1: number of cluster to which the element belong
+# integer >= 1: number of the cluster to which the element belongs
 CLAG.mapClusterings <- function(cl1, cl2) {
   stopifnot(length(cl1) == length(cl2))
   # When an element is unclusted in one clustering only,
@@ -119,10 +126,10 @@ CLAG.compareClusterings <- function(cl1, cl2) {
   return(res)
 }
 
-cat("\n\n")
-CLAG.compareClusterings(c(0,1,1,1,2,2,2,3,3,3,3), c(0,3,3,3,1,1,1,2,2,2,2))
+#cat("\n\n")
+#CLAG.compareClusterings(c(0,1,1,1,2,2,2,3,3,3,3), c(0,3,3,3,1,1,1,2,2,2,2))
 
-cat("\n\n")
-CLAG.compareClusterings(c(0,1,1,1,2,2,2,3,3,3,3,0), c(3,1,3,3,1,1,1,2,0,2,4,0))
+#cat("\n\n")
+#CLAG.compareClusterings(c(0,1,1,1,2,2,2,3,3,3,3,0), c(3,1,3,3,1,1,1,2,0,2,4,0))
 
 
