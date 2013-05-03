@@ -271,7 +271,7 @@ CLAG.clust <- function(M,
 }
 
 
-
+# Present for backward compatibility only
 CLAG.loadExampleData <- function(set=NULL) {
   if (is.null(set)) {
     cat("Available data sets: BREAST, GLOBINE, DIM128, DIM128-subset\n")

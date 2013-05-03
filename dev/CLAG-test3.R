@@ -17,7 +17,8 @@ source(paste(R_SCRIPTS_PATH, "/auxfunctions.R", sep=""))
 
 setwd("~/Documents/CLAG-tests/")
 
-DATA <- CLAG.loadExampleData("DIM128-subset")
+data(DIM128_subset)
+DATA <- DIM128_subset
 
 pdf("plots3.pdf")
 
