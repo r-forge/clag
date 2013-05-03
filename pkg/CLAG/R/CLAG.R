@@ -270,28 +270,3 @@ CLAG.clust <- function(M,
   return(RES)
 }
 
-
-# Present for backward compatibility only
-CLAG.loadExampleData <- function(set=NULL) {
-  if (is.null(set)) {
-    cat("Available data sets: BREAST, GLOBINE, DIM128, DIM128-subset\n")
-    return(NULL)
-  }
-  env <- new.env()
-  if (set == "BREAST") {
-    data(BREAST, package="CLAG", envir=env)
-    return(list(M=env$BREAST, colIds=1:ncol(env$BREAST), rowIds=1:nrow(env$BREAST)))
-  } else if (set == "GLOBINE") {
-    data(GLOBINE, package="CLAG", envir=env)
-    return(env$GLOBINE)
-  } else if (set == "DIM128") {
-    data(DIM128, package="CLAG", envir=env)
-    return(env$DIM128)
-  } else if (set == "DIM128-subset") {
-    data(DIM128_subset, package="CLAG", envir=env)
-    return(env$DIM128_subset)
-  } else {
-    stop(paste("unknown CLAG example data set:", set))
-  }
-}
-

@@ -16,8 +16,6 @@ R_SCRIPTS_PATH <- paste(MYDOCPATH, "/A/R-scripts", sep="")
 
 source(paste(R_SCRIPTS_PATH, "/auxfunctions.R", sep=""))
 
-source("~/svn/clag/dev/CLAG-extra.R")
-
 setwd("~/Documents/CLAG-tests/")
 
 data(DIM128_subset)
@@ -87,9 +85,9 @@ for (caseNumber in 1:3) {
         k <- k + 1
       }
       
-      mapping <- CLAG.compareClusterings(RES$cluster, correctClustering)
+      mapping <- compareClusterings(RES$cluster, correctClustering, verbose=TRUE)
       plot(-PCA$x[,1], PCA$x[,2], col=mapColors(clusterRemapped), pch=4, cex.main=0.8,
-           main=paste("DIM128 ", caseName, " normalization=", normalizationMethod, " delta=", delta, " #clusters=", RES$nclusters, " bad=", mapping$bad, sep=""))
+           main=paste("DIM128 ", caseName, " normalization=", normalizationMethod, " delta=", delta, " #clusters=", RES$nclusters, " bad=", mapping$ndiff, sep=""))
       
       points(-PCA$x[mapping$diffclust,1], PCA$x[mapping$diffclust,2])
       
