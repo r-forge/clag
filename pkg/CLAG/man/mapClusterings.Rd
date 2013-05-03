@@ -16,10 +16,10 @@ An element e is identically clustered if one of these conditions is true:
 Differently clustered is the opposite.
 }
 \usage{
-mapClusterings(cl1, cl2)
+mapClusterings(cl1, cl2, verbose=FALSE)
 }
 \arguments{
-  \item{cl1}{A vector of integers such that cl1[i] is the number (>= 1) of the cluster in which i is. 0 is a special value that means the element is not clustered.}
+  \item{cl1}{A vector of integers such that cl1[i] is the number (>= 1) of the cluster in which i is. 0 is a special value that means the element is not clustered. (This is the format of the cluster field returned by \code{\link{CLAG.clust}})}
   \item{cl2}{The same for the other clustering.}
   \item{verbose}{Display information about tested cases.}
 }
