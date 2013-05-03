@@ -115,6 +115,7 @@ CLAG.compareClusterings <- function(cl1, cl2) {
   cat("CL1 renamed: ", cl1a, "\n")
   cat("CL2 original:", cl2, "\n")
   cat("Differently clustered elements:", res$bad, "\n")
+  res$diffclust <- cl1a != cl2
   return(res)
 }
 

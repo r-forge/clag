@@ -88,9 +88,10 @@ for (caseNumber in 1:3) {
       }
       
       mapping <- CLAG.compareClusterings(RES$cluster, correctClustering)
-      stop()
-      plot(-PCA$x[,1], PCA$x[,2], col=mapColors(clusterRemapped), pch=4,
+      plot(-PCA$x[,1], PCA$x[,2], col=mapColors(clusterRemapped), pch=4, cex.main=0.8,
            main=paste("DIM128 ", caseName, " normalization=", normalizationMethod, " delta=", delta, " #clusters=", RES$nclusters, " bad=", mapping$bad, sep=""))
+      
+      points(-PCA$x[mapping$diffclust,1], PCA$x[mapping$diffclust,2])
       
     }
   }
