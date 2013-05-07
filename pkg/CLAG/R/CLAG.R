@@ -192,6 +192,10 @@ CLAG.clust <- function(M,
     }
   }
   
+  if (analysisType == 3 && normalization != "affine-global") {
+    warning("Using character-based normalization while doing symmetry anaylsis is probably not what you want since it breaks symmetry")
+  }
+  
   if (analysisType != 2) {
     if (normalization == "affine-global") {
       r <- range(M, na.rm=TRUE)

@@ -5,8 +5,8 @@ rm(list=ls())
 
 while (sink.number() > 0)
   sink()
-#while (length(dev.list()) > 0)
-#  dev.off()
+while (length(dev.list()) > 0)
+  dev.off()
 
 library(CLAG)
 
@@ -71,12 +71,20 @@ for (caseNumber in 1:3) {
     V <- c(V, M[,j])
     C <- c(C, rep(j, nrow(M)))
   }
-  rlcCompareDens(V, C)
+  rlcCompareDens(V, C, bw=50)
   
   for (normalizationMethod in c("affine-global", "affine-column", "rank-column")) {
   
     for (delta in c(0.05)) {
       RES <- CLAG.clust(M, delta=delta, threshold=0.5, normalization=normalizationMethod, verbose=TRUE)
+      
+      V <- c()
+      C <- c()
+      for (j in 1:10) {
+        V <- c(V, RES$A[,j])
+        C <- c(C, rep(j, nrow(M)))
+      }
+      rlcCompareDens(V, C, bw=0.02, main=normalizationMethod)
       
       clusterRemapped <- rep(-1, length(RES$cluster))
       k <- 1
@@ -84,6 +92,8 @@ for (caseNumber in 1:3) {
         clusterRemapped[RES$cluster == i] <- k
         k <- k + 1
       }
+      
+      PCA <- prcomp(M)
       
       mapping <- compareClusterings(RES$cluster, correctClustering, verbose=TRUE)
       plot(-PCA$x[,1], PCA$x[,2], col=mapColors(clusterRemapped), pch=4, cex.main=0.8,
@@ -94,17 +104,6 @@ for (caseNumber in 1:3) {
     }
   }
 }
-
-dev.off()
-
-
-pdf("~/Documents/workspace/RCLAGarticle/figures/clusters.pdf")
-
-oldmar <- par("mar")
-par(mar=c(2, 2, 0.5, 0.5))
-plot(-PCA$x[,1], PCA$x[,2], col=mapColors(clusterRemapped),
-     xlab=NA, ylab=NA, main=NA, pch=4, cex=2)
-par(mar=oldmar)
 
 dev.off()
 
