@@ -1,98 +1,132 @@
 body {
-  font-family: Arial, DejaVu Sans, sans-serif;
-  background: white;
-  color: black;
+	font-family: Arial, Helvetica, "DejaVu Sans", sans-serif;
+	background: white;
+	color: black;
+	background-color: #E5E5E5;
+	margin:0;
+	padding:0;
+	font-size: 90%;
 }
-a:link {
-  color: #00f;
-  background: transparent;
-  text-decoration: underline;
+
+a,a:visited {
+	color: rgb(0, 102, 204);
+	text-decoration: none;
 }
-a:visited {
-  color: #060;
-  background: transparent;
-  text-decoration: underline;
+
+a:hover {
+	text-decoration: underline;
 }
-a:link:hover {
-  color: white;
-  background: #006;
-  text-decoration: underline;
-}
-a:visited:hover {
-  color: white;
-  background: #060;
-  text-decoration: underline;
-}
-a:link:active {
-  color: white;
-  background: #00f;
-  text-decoration: underline;
-}
-a:visited:active {
-  color: white;
-  background: #0d0;
-  text-decoration: underline;
-}
+
 h1 {
-  font-family: Times New Roman, Times, serif;
-  text-align: center;
-  color: #009;
-  font-size: 200%;
-  font-weight: bold;
-  font-variant: normal;
+	font-size: 20px;
+	margin-bottom: 10px;
+	font-weight: bold;
 }
+
 h2 {
-  color: #005;
-  font-size: 150%;
-  font-weight: bold;
-  font-variant: normal;
-  font-style: italic;
+	font-size: 17px;
+	margin-bottom: 8px;
+	margin-top: 16px;
+	font-weight: bold;
 }
+
 h3 {
-  color: #255;
-  font-size: 120%;
-  font-weight: bold;
-  font-variant: normal;
-  font-style: italic;
+	font-size: 14px;
+	margin-bottom: 7px;
+	font-weight: bold;
 }
-h4 {
-  color: black;
-  text-align: left;
-  font-size: 100%;
-  font-weight: bold;
-  font-variant: normal;
-  font-style: italic;
-}
-em {
-  font-style: italic;
-  background: #0f9;
-}
+
 pre {
-  padding: 1%;
-  font-family: monospace;
-  border: 1px solid black;
+	font-family: Consolas, 'Lucida Console', 'Andale Mono', 'Bitstream Vera Sans Mono', 'Courier New', Courier;
+	display: block;
+	background-color: rgb(238, 238, 238);
+	font-size: 90%;
+	padding: 6px 19px;
+	margin-bottom: 6px;
 }
+
 table {
-  border: 1px solid black;
+	border: 1px solid black;
 }
-caption {
-  font-style: italic;
-}
+
 th {
-  border: 1px solid black;
-  text-align: center;
-  padding: 2px;
-  font-style: normal;
-  font-weight: bold;
+	border: 1px solid black;
+	text-align: center;
+	padding: 2px;
+	font-style: normal;
+	font-weight: bold;
 }
+
 td {
-  border: 1px solid black;
-  text-align: left;
-  padding: 2px;
+	border: 1px solid black;
+	text-align: left;
+	padding: 2px;
 }
+
 ul {
-  list-style: square outside none;
+	list-style: square outside none;
 }
+
 ol {
-  list-style: decimal outside none;
+	list-style: decimal outside none;
+}
+
+hr {
+	width: 90%;
+	padding: auto
+}
+
+.main {
+	padding: 20px 50px;
+}
+
+.imgFooterL {
+	margin-left: 50px;
+	margin-bottom: 10px;
+	width: 200px;
+	height: 70px;
+}
+
+.imgFooterC {
+	margin-left: 250px;
+	margin-bottom: 10px;
+	width: 72px;
+	height: 70px;
+}
+
+.imgFooterR {
+	margin-left: 300px;
+	margin-bottom: 10px;
+	width: 70px;
+	height: 70px;
+}
+
+.wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+	background-color: #FFFFFF;
+}
+
+.osicon {
+	width: 30px;
+	margin-left: 10px;
+	vertical-align: middle;
+}
+
+.rightColumn img {
+	width: 280px;
+	margin-top: 30px;
+	float: right;
+}
+
+.leftColumn {
+	width: 600px;
+	padding-right: 50px;
+}
+
+p#lastUpdate {
+	color: rgb(102,102,102);
+	font-size: 11px;
+	margin-top: 15px;
 }

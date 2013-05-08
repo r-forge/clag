@@ -6,7 +6,16 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<img src="screenshot.png" style="float: right; width: 200px; margin-left: 10px;" alt="">
+
+<div class="wrapper">
+<div class="main">
+
+<div class="rightColumn">
+<img src="images/screenshot.png" style="width: 200px;" />
+</div>
+
+<div class="leftColumn">
+
 <h1>CLAG R package</h1>
 <p>
 CLAG (for CLusters AGgregation) is an unsupervised non hierarchical <b>clustering algorithm</b> originally described in this article: <a href="http://www.biomedcentral.com/1471-2105/13/194/">CLAG: an unsupervised non hierarchical clustering algorithm handling biological data, Linda Dib and Alessandra Carbone, <i>BMC Bioinformatics</i> 2012</a>.
@@ -17,8 +26,8 @@ clustering, like standard R function do (hclust, kmeans, etc.)
 </p>
 
 <h2>How to install it</h2>
-<h3>Linux and Mac OS X</h3>
-<p>In R, run:</p>
+<h3>Linux and Mac OS X <img src="images/linux.png" class="osicon" alt=""><img src="images/apple.jpg" class="osicon" alt=""></h3>
+<p>In R (at least version 2.14), run:</p>
 <pre>
 tmp &lt;- tempfile(fileext=".tar.gz")
 download.file("http://clag.r-forge.r-project.org/CLAG.tar.gz", tmp)
@@ -27,7 +36,7 @@ install.packages(tmp, repos=NULL, type="source")
 <p>Once installed, you can type library(CLAG) to load it. It should say "CLAG ready".</p>
 
 
-<h3>Windows</h3>
+<h3>Windows <img src="images/windows.png" class="osicon" alt=""></h3>
 <p>As CLAG is written in the Perl programming language, you first need to install Perl if you haven't done it already. Perl can be downloaded for free here: <a href="http://strawberryperl.com/">http://strawberryperl.com/</a>. Simply download the installer and install with all the default options.</p>
 <p>
 Then, <a href="CLAG.tar.gz">click here to download the CLAG package</a>. After that, in R, run:
@@ -57,6 +66,20 @@ help(CLAG.clust)
 </ul>
 
 <h2>Authors</h2>
-<p>The CLAG algorithm was designed by Linda Dib and Alessandra Carbone, while the R package was created by Raphaël Champeimont. All this work was done in the <a href="http://www.lgm.upmc.fr/drupal/">"Génomique des Microorganismes" lab</a>, belonging to CNRS and Université Pierre et Marie Curie (Paris 6).
+<p>The CLAG algorithm was designed by Linda Dib and Alessandra Carbone, while the R package was created by Raphaël Champeimont. All this work was done in the <a href="http://www.lgm.upmc.fr/drupal/">"Génomique des Microorganismes" lab</a>, belonging to CNRS and Université Pierre et Marie Curie (Paris 6).</p>
+
+<p id="lastUpdate">Last Update May 2013</p>
+
+</div>
+</div>
+
+<hr>
+
+<div id="footer">
+<a href="http://www.upmc.fr/"><img src="images/UPMC.gif" class="imgFooterL" alt="UPMC"></a>
+<a href="http://www.lgm.upmc.fr/"><img src="images/LGM.png" class="imgFooterC" alt="LGM"></a>
+<a href="http://www.cnrs.fr/"><img src="images/CNRS.png" class="imgFooterR" alt="CNRS"></a>
+</div>
+
 </body>
 </html>
