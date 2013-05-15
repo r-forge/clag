@@ -252,13 +252,13 @@ CLAG.clust <- function(M,
       }
       RES$cluster[indices] <- i
       if (analysisType == 3) {
-        RES$firstSymScore <- c(RES$firstScores, as.numeric(rawClusters[i,3]))
-        RES$lastSymScore <- c(RES$lastScores, as.numeric(rawClusters[i,4]))
-        RES$firstEnvScore <- c(RES$firstScores, as.numeric(rawClusters[i,5]))
-        RES$lastEnvScore <- c(RES$lastScores, as.numeric(rawClusters[i,6]))
+        RES$firstSymScore <- c(RES$firstSymScore, as.numeric(rawClusters[i,3]))
+        RES$lastSymScore <- c(RES$lastSymScore, as.numeric(rawClusters[i,4]))
+        RES$firstEnvScore <- c(RES$firstEnvScore, as.numeric(rawClusters[i,5]))
+        RES$lastEnvScore <- c(RES$lastEnvScore, as.numeric(rawClusters[i,6]))
       } else {
-        RES$firstEnvScore <- c(RES$firstScores, as.numeric(rawClusters[i,3]))
-        RES$lastEnvScore <- c(RES$lastScores, as.numeric(rawClusters[i,4]))
+        RES$firstEnvScore <- c(RES$firstEnvScore, as.numeric(rawClusters[i,3]))
+        RES$lastEnvScore <- c(RES$lastEnvScore, as.numeric(rawClusters[i,4]))
       }
     }
     RES$nclusters <- nrow(rawClusters)
