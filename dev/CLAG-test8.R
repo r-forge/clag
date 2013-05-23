@@ -23,7 +23,7 @@ setwd("~/Documents/CLAG-tests/")
 
 microarrayColors <- colorRampPalette(c("blue", "green","yellow","red","darkred"))(1000)
 
-alignment <- readAlignment("CFTR.fasta")
+alignment <- readAlignment("CFTR_sorted.fasta")
 alignment <- alignment[nrow(alignment):1, ]
 print(dim(alignment))
 
@@ -35,12 +35,18 @@ ZZ[ZZ == 1] <- NA
 M2 <- matrix(ZZ, ncol=ncol(alignment), nrow=nrow(alignment))
 rownames(M2) <- rownames(alignment)
 
-heatmap(M2, col=taylorColors$color, scale="none", Colv=NA, Rowv=NA)
+#heatmap(M2, col=taylorColors$color, scale="none", Colv=NA, Rowv=NA)
 
-RES <- CLAG.clust(alignment, analysisType=2, threshold=0.95,
+RES <- CLAG.clust(alignment, analysisType=2, threshold=0.9,
                   verbose=TRUE, keepTempFiles=TRUE)
 
 heatmap(M2, col=taylorColors$color, scale="none", Colv=NA, Rowv=NA, RowSideColors=c("black", rainbow(RES$nclusters))[RES$cluster+1])
+
+for (i in 1:RES$nclusters) {
+  cat("cluster", i, "\n")
+  cat(rownames(alignment)[RES$cluster == i])
+  cat("\n")
+}
 
 dev.off()
 
