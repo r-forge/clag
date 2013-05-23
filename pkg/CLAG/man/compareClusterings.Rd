@@ -1,6 +1,6 @@
 \name{compareClusterings}
 \alias{compareClusterings}
-\title{Compare two clusterings of the same elements}
+\title{Compare two clusterings of the same elements (and print results)}
 \description{
 Same as \code{\link{mapClusterings}} except that is prints nicely the result
 instead of just returning it.
