@@ -8,7 +8,9 @@
   article (see below). This function returns what is called "key aggregates" in the article.
 }
 \usage{
-CLAG.clust(M, delta=0.05, threshold=0, analysisType=1, normalization="affine-global", rowIds=NULL, colIds=NULL, verbose=FALSE, keepTempFiles=FALSE)
+CLAG.clust(M, delta=0.05, threshold=0, analysisType=1,
+  normalization="affine-global", rowIds=NULL, colIds=NULL,
+  verbose=FALSE, keepTempFiles=FALSE)
 }
 \arguments{
   \item{M}{A matrix or data frame where rows are points to cluster and columns are variables.}
@@ -39,21 +41,16 @@ The returned value is a list with several members:
 CLAG: an unsupervised non hierarchical clustering algorithm handling biological data, Linda Dib, Alessandra Carbone, BMC Bioinformatics 2012, 13:194
 }
 \examples{
-# First example with real variables
-data(DIM128_subset, package="CLAG")
-RES <- CLAG.clust(DIM128_subset)
+# Example with real variables
+data(DIM128, package="CLAG")
+# Take a subset (this is to make the example fast
+# but you can use the entire dataset)
+M <- DIM128[seq(1, nrow(DIM128), by=20),]
+# Run the cluster analysis
+RES <- CLAG.clust(M)
 # Display points in 2D using a PCA and color them by cluster
 # except unclunsted points which are left black.
-PCA <- prcomp(DIM128_subset)
-clusterColors <- c("black", rainbow(RES$ncluster))
-plot(PCA$x[,1], PCA$x[,2], col=clusterColors[RES$cluster+1], main=paste(RES$nclusters, "clusters"))
-
-# Second example with boolean variables
-# (we replace each variable with TRUE or FALSE
-# depending on whether the value is below or above 128)
-DATA2 <- DIM128_subset > 128
-RES <- CLAG.clust(DATA2, analysisType=2)
-PCA <- prcomp(DATA2)
+PCA <- prcomp(M)
 clusterColors <- c("black", rainbow(RES$ncluster))
 plot(PCA$x[,1], PCA$x[,2], col=clusterColors[RES$cluster+1], main=paste(RES$nclusters, "clusters"))
 }
