@@ -1,7 +1,7 @@
 Package: CLAG
 Type: Package
 Title: An unsupervised non hierarchical clustering algorithm handling biological data
-Version: 2.17.1
+Version: 2.18
 Date: 2013-08-19
 Author: Linda DIB, Raphael CHAMPEIMONT, Alessandra CARBONE
 Maintainer: Raphael CHAMPEIMONT <raphael.champeimont@upmc.fr>
@@ -9,5 +9,6 @@ Description: CLAG (for CLusters AGgregation) is an unsupervised non hierarchical
 License: BSD_2_clause + file LICENSE | GPL (>= 2)
 LazyLoad: yes
 Depends: R (>= 2.14)
+Suggests: clue (>= 0.3-46)
 URL: http://clag.r-forge.r-project.org/
 SystemRequirements: perl

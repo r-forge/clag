@@ -2,5 +2,5 @@
 
 cd pkg
 rm -fv *.tar.gz
-R CMD build CLAG && R CMD check CLAG_*.tar.gz && R CMD INSTALL CLAG_*.tar.gz && cp CLAG_*.tar.gz ../www/CLAG.tar.gz
+R CMD build CLAG && R CMD check CLAG_*.tar.gz && R CMD INSTALL CLAG_*.tar.gz #&& cp CLAG_*.tar.gz ../www/CLAG.tar.gz
 
