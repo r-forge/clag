@@ -1,8 +1,8 @@
 Package: CLAG
 Type: Package
 Title: An unsupervised non hierarchical clustering algorithm handling biological data
-Version: 2.18
-Date: 2013-08-19
+Version: 2.18.1
+Date: 2013-09-13
 Author: Linda DIB, Raphael CHAMPEIMONT, Alessandra CARBONE
 Maintainer: Raphael CHAMPEIMONT <raphael.champeimont@upmc.fr>
 Description: CLAG (for CLusters AGgregation) is an unsupervised non hierarchical clustering algorithm designed to cluster a large variety of biological data and to provide a clustered matrix and numerical values indicating cluster strength. CLAG clusterizes correlation matrices for residues in protein families, gene-expression and miRNA data related to various cancer types, sets of species described by multidimensional vectors of characters, binary matrices. It does not ask to all data points to cluster and it converges yielding the same result at each run. Its simplicity and speed allows it to run on reasonably large datasets.
